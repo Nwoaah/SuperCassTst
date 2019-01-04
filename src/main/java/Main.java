@@ -6,6 +6,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static ArrayList<InputLineObject> data = new ArrayList<>();
@@ -14,10 +17,12 @@ public class Main {
     public static String outputPath = "src\\output.json";
     public static final byte fullInputLineObject = 15;
 
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
+
         data = createArray(inputPath);
         Util.sort(data);
         doGluing(data);
+
         makeOutputFile();
     }
 
@@ -44,12 +49,27 @@ public class Main {
 
     // point of entry in Gluing
     public static void doGluing(ArrayList<InputLineObject> array) {
+
+        ExecutorService service = Executors.newFixedThreadPool(5);
         // >= 8 because of algorithm. u cant reach fullInputLineObject(15) if your first gluing object sum is less than 8
         for (int i = array.size() - 1; array.get(i).getSum() >= 8; i--) {
             int searchIndex = Util.BinarySearchRight(array, fullInputLineObject - array.get(i).getSum());
             int index = i;
-            ((Runnable) () -> gluingTogether(array, searchIndex - 1, array.get(index))).run();
+            //Semaphore
+            service.execute(new Runnable() {
+                @Override
+                public void run() {
+                    gluingTogether(array, searchIndex - 1, array.get(index));
 
+                }
+            });
+
+        }
+        service.shutdown();
+        try {
+            service.awaitTermination(10, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -57,7 +77,7 @@ public class Main {
     public static void gluingTogether(ArrayList<InputLineObject> array, int rightIndex, InputLineObject inputLineObject) {
 
         if (inputLineObject.getSum() == fullInputLineObject) {
-            synchronized (output) {
+           synchronized (output) {
                 output.add(inputLineObject.toJsonArray());
             }
         } else {

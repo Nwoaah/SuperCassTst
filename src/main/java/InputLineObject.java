@@ -34,7 +34,7 @@ public class InputLineObject {
         }
     }
 
-    InputLineObject(String first, String second, String third, String fourth, byte sum) {
+    private InputLineObject(String first, String second, String third, String fourth, byte sum) {
         this.first = first;
         this.second = second;
         this.third = third;
