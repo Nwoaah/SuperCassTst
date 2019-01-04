@@ -1,6 +1,7 @@
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -17,7 +18,7 @@ public class Main {
     public static String outputPath = "src\\output.json";
     public static final byte fullInputLineObject = 15;
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
 
         data = createArray(inputPath);
         Util.sort(data);
@@ -77,7 +78,7 @@ public class Main {
     public static void gluingTogether(ArrayList<InputLineObject> array, int rightIndex, InputLineObject inputLineObject) {
 
         if (inputLineObject.getSum() == fullInputLineObject) {
-           synchronized (output) {
+            synchronized (output) {
                 output.add(inputLineObject.toJsonArray());
             }
         } else {
