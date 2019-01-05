@@ -1,5 +1,6 @@
 import com.google.gson.JsonArray;
 import org.apache.commons.io.FileUtils;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -112,7 +113,6 @@ public class MainTest {
         }
     }
 
- /*
     @AfterTest
     public void deleteDirAndTestOutputFiles() {
         File file = new File("src\\out");
@@ -122,5 +122,5 @@ public class MainTest {
             }
         }
         file.delete();
-    }*/
+    }
 }
