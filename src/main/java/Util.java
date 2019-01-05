@@ -3,9 +3,9 @@ import java.util.ArrayList;
 public class Util {
 
     // returns the index + 1 of the rightmost desired element
-    public static int BinarySearchRight(ArrayList<InputLineObject> A, int key) {
+    public static int BinarySearchRight(ArrayList<InputLineObject> A, int key,int rightBorder) {
         int left = -1;
-        int right = A.size();
+        int right = rightBorder;
         int middle;
         while (left + 1 < right) {
             middle = (left + right) >> 1;
